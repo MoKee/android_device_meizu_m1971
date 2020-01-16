@@ -24,6 +24,8 @@
 
 #include "Power.h"
 
+#define AOD_ENABLE_NODE "/sys/class/meizu/lcm/display/aod"
+
 #define TAP_TO_WAKE_NODE "/dev/mokee.touch@1.0/dt2w"
 
 namespace android {
@@ -49,6 +51,7 @@ Power::~Power() {
 
 // Methods from ::android::hardware::power::V1_0::IPower follow.
 Return<void> Power::setInteractive(bool interactive)  {
+    set(AOD_ENABLE_NODE, interactive ? 0 : 1);
     if (mModule->setInteractive)
         mModule->setInteractive(mModule, interactive ? 1 : 0);
     return Void();
